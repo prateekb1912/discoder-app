@@ -2,7 +2,7 @@
 
 {% block content %}
 <style>
-    .home-container{
+    .home-container {
         display: grid;
         grid-template-columns: 1fr 3fr;
     }
@@ -20,13 +20,13 @@
         <hr>
 
         <div class="topic-item">
-            <a href = "{% url 'home' %}"> All </a>
+            <a href="{% url 'home' %}"> All </a>
         </div>
 
         {% for topic in topics %}
-            <div class="topic-item">
-                <a href = "{% url 'home' %}?q={{topic.name}}"> {{topic}} </a>
-            </div>
+        <div class="topic-item">
+            <a href="{% url 'home' %}?q={{topic.name}}"> {{topic}} </a>
+        </div>
         {% endfor %}
     </div>
 
@@ -36,8 +36,11 @@
         <div>
             {% for room in rooms %}
             <div>
+                {% if request.user == room.host %}
                 <a href="{% url 'update-room' room.id %}"> Edit </a>
                 <a href="{% url 'delete-room' room.id%}"> Delete </a>
+                {% endif%}
+
                 <span>@{{room.host.username}}</span>
                 <h5> {{room.id}} -- <a href="{% url 'room' room.id %}"> {{room.name}} </a> </h5>
                 <small>{{room.topic.name}}</small>
