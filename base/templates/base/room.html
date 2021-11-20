@@ -2,4 +2,26 @@
 
 {% block content %}
 <h1> {{room.name}} </h1>
+<p> {{room.desc}} </p>
+
+<div class="comment-wrapper"> 
+    <h3> Comments </h3>
+    <hr>
+    {% for cmt in comments %}
+        <div>
+            <small>@{{cmt.user}} {{cmt.created|timesince}} ago </small>
+            <p> {{cmt.body}} </p>
+            <hr> 
+        </div>
+    {% endfor %}
+</div>
+
+{% if request.user.is_authenticated %}
+<div class="comment-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        <input type="text" name='comment' placeholder="Comment here..."/> 
+    </form>
+</div>
+{% endif %}
 {%endblock content%}
