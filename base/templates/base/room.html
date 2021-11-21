@@ -1,27 +1,56 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<h1> {{room.name}} </h1>
-<p> {{room.desc}} </p>
 
-<div class="comment-wrapper"> 
-    <h3> Comments </h3>
-    <hr>
-    {% for cmt in comments %}
-        <div>
-            <small>@{{cmt.user}} {{cmt.created|timesince}} ago </small>
-            <p> {{cmt.body}} </p>
-            <hr> 
+<style>
+    .room-container {
+        display: grid ;
+        grid-template-columns: 3fr 1fr;
+    }
+</style>
+
+<div class="room-container">
+
+    <div class="room-contents">
+
+        <h1> {{room.name}} </h1>
+
+        <p> {{room.desc}} </p>
+
+        <div class="comment-wrapper">
+            <h3> Comments </h3>
+            <hr>
+            {% for cmt in comments %}
+            <div>
+                {% if request.user == cmt.user %}
+                <a href="{% url 'delete-message' cmt.id %}"> Delete </a>
+                {% endif %}
+                <small>@{{cmt.user}} {{cmt.created|timesince}} ago </small>
+                <p> {{cmt.body}} </p>
+                <hr>
+            </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-</div>
 
-{% if request.user.is_authenticated %}
-<div class="comment-form">
-    <form method="post" action="">
-        {% csrf_token %}
-        <input type="text" name='comment' placeholder="Comment here..."/> 
-    </form>
+        {% if request.user.is_authenticated %}
+        <div class="comment-form">
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="text" name='comment' placeholder="Comment here..." />
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="participants">
+        <h3> Participants </h3>
+        {% for p in participants %}
+            <div class="participant-item">
+                <p> @{{p}} </p>
+            </div>
+        {% endfor %}
+        <hr>
+
+    </div>
 </div>
-{% endif %}
 {%endblock content%}
