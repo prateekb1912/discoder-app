@@ -48,7 +48,7 @@ def registerUser(request):
     form = UserCreationForm()
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = UserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
@@ -195,7 +195,7 @@ def updateUser(request):
     }
 
     if request.method == 'POST':
-        form = UserForm(request.POST, instance=user)
+        form = UserForm(request.POST, request.FILES, instance=user)
 
         if form.is_valid:
             form.save()

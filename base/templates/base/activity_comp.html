@@ -7,7 +7,7 @@
         <div class="activities__boxHeader roomListRoom__header">
             <a href="{% url 'user-profile' msg.user.id%}" class="roomListRoom__author">
                 <div class="avatar avatar--small">
-                    <img src="https://randomuser.me/api/portraits/women/11.jpg" />
+                    <img src="{{msg.user.avatar.url}}" />
                 </div>
                 <p>
                     @{{msg.user.username}}
@@ -28,7 +28,7 @@
             {%endif%}
         </div>
         <div class="activities__boxContent">
-            <p>replied to "<a href="room.html">{{msg.room.name}}</a>"</p>
+            <p>replied to "<a href="{% url 'room' msg.room.id%}">{{msg.room.name}}</a>"</p>
             <div class="activities__boxRoomContent">
                 {{msg.body}}
             </div>
