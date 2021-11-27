@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import  UserCreationForm
 
 from .models import Message, Room, Topic, User
-from .forms import RoomForm, UserForm
+from .forms import RoomForm, UserForm, NewUserCreationForm
 
 def loginPage(request):
     page = "login"
@@ -45,10 +45,10 @@ def logoutUser(request):
 
 def registerUser(request):
     page = "register"
-    form = UserCreationForm()
+    form = NewUserCreationForm()
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST, request.FILES)
+        form = NewUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
